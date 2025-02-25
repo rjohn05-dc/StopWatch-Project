@@ -1,0 +1,11 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.main-area {
+  border-style: solid;
+  border-color: antiquewhite;
+}/*# sourceMappingURL=StopWatch.css.map */
