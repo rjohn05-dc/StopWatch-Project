@@ -5,25 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/css/StopWatch.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <title>Document</title>
+    <title>StopWatch</title>
 </head>
 <body>
     <h1>StopWatch</h1>
+    
+    <div class="row">
+        <button class="start">Start</button>
+        <button class="stop">Stop</button>
+        <button class="reset">Reset</button>
+        <button class="lap">Lap</button>
+    </div>
+   
+   
+    <div class="main-area">
+        <p>00:00.00</p>
+    </div>
+    <div class="output">
 
-    <button class="start">Start the StopWatch</button>
-    <button class="stop">Stop the StopWatch</button>
-    <button class="reset">Reset the StopWatch</button>
-
-<div class="main-area">
-
-</div>
-
+    </div>
 
 
     <script>
-$(document).ready(function(){
+        $(document).ready(function(){
+            var timer = 0;
+            var interval;
+            var isRunning = false;
+            var minutes = 0;
+            var seconds = 0;
+            var milliseconds = 0;
+// This function will check if the minutes, seconds and milliseconds are less than 10 and if they are, it will add a 0 in front of them. This will continue to loop until the timer is stopped.
+            function startTimer(){
+                timer++;
+                minutes = Math.floor(timer/100/60);
+                seconds = Math.floor(timer/100);
+                milliseconds = timer % 100;
 
-})
+                if(minutes < 10){
+                    minutes = "0" + minutes;
+                }
+                if(seconds >= 60){
+                    seconds = seconds % 60;
+                }
+                if(seconds < 10){
+                    seconds = "0" + seconds;
+                }
+                if(milliseconds < 10){
+                    milliseconds = "0" + milliseconds;
+                }
+
+                $(".main-area p").text(minutes + ":" + seconds + ":" + milliseconds);
+            }
+// This button starts the timer. It will only start if the timer is not running.
+            $(".start").click(function(){
+                if(isRunning == false){
+                    interval = setInterval(startTimer, 10);
+                    isRunning = true;
+                }
+            });
+// This button stops the timer. It will only stop if the timer is running.
+            $(".stop").click(function(){
+                clearInterval(interval);
+                isRunning = false;
+            });
+// This button will reset the timer to 00:00:00. It will only reset if the timer is stopped.
+            $(".reset").click(function(){
+                clearInterval(interval);
+                isRunning = false;
+                timer = 0;
+                $(".main-area p").text("00:00:00");
+            });
+// This button will record the time of the timer when the lap button is clicked. It will only record the time while  the timer is running.
+            $(".lap").click(function(){
+                if(isRunning == true){
+                    var lapTime = $(".main-area p").text();
+                    $(".output").append("<p>" + lapTime + "</p>");
+                }
+            });
+
+startTimer();
+
+       
+        });
+    </script>
+</body>
+</html>
+
     </script>
 </body>
 </html>
